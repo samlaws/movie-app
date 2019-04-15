@@ -26,15 +26,40 @@ def movie_details(input):
     print('\nYour chosen film is: ', result_title, result_date)
     print((len('Your chosen film is: ' + result_title +result_date )+2)*'-', '\n')
 
-    summary = str(text).split('Director:')[0]
+    summary = str(text).split('Director')[0]
     summary = summary.replace('\\n', '').replace('["', '').replace('  ','').replace("['", '')
 
-    director = str(text).split('Director:')[1].split('Writers')[0]
-    director = director.replace('\\n', '').replace('["', '').replace('  ','')
+    try:
+        director = str(text).split('Director:')[1].split('Writers')[0]
+        director = director.replace('\\n', '').replace('["', '').replace('  ','')
+    except IndexError:
+        director = 'Multiple Directors'
+
     reviews = html_soup2.find_all('div', class_ = 'ratingValue')
     score = str(reviews).split('title="')[1].split(' based on')[0]
     num_reviews = str(reviews).split('based on ')[1].split('"><')[0]
 
+    cast_table = html_soup2.findAll('tr')
+
+    chars =[]
+    rest=[]
+
+    for row in cast_table:
+        character = row.find('td', class_='character')
+        chars.append(str(character))
+        restful = row.find('td')
+        rest.append(str(restful))
+
+
+    chars = chars[1:-2]
+    chars = [x.split('">')[2].split('</a>')[0] for x in chars]
+
+    rest = rest[1:-2]
+    rest = [x.split('png" title="')[1].split('" width="')[0] for x in rest]
+
+    cast = list(zip(chars, rest))
+    print(cast)
+    print(len(rest))
     print('Summary:\n', summary, '\n')
     print('Director:\n', director, '\n')
     print('IMDB score:\n', score, '\n')
