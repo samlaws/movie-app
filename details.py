@@ -30,19 +30,25 @@ def movie_details(input):
     summary = summary.replace('\\n', '').replace('["', '').replace('  ','').replace("['", '')
 
     try:
-        director = str(text).split('Director:')[1].split('Writers')[0]
+        director = str(text).split('Director:')[1].split('Writer')[0]
         director = director.replace('\\n', '').replace('["', '').replace('  ','')
     except IndexError:
-        director = 'Multiple Directors'
+        director = 'Cannot Find Director'
 
-    reviews = html_soup2.find_all('div', class_ = 'ratingValue')
-    score = str(reviews).split('title="')[1].split(' based on')[0]
-    num_reviews = str(reviews).split('based on ')[1].split('"><')[0]
+    try:
+        reviews = html_soup2.find_all('div', class_ = 'ratingValue')
+        score = str(reviews).split('title="')[1].split(' based on')[0]
+        num_reviews = str(reviews).split('based on ')[1].split('"><')[0]
+    except IndexError:
+        score = 'Unreleased'
+        num_reviews=0
+
 
     cast_table = html_soup2.findAll('tr')
 
     chars =[]
     rest=[]
+    cast = True
 
     for row in cast_table:
         character = row.find('td', class_='character')
@@ -50,17 +56,32 @@ def movie_details(input):
         restful = row.find('td')
         rest.append(str(restful))
 
-
     chars = chars[1:-2]
-    chars = [x.split('">')[2].split('</a>')[0] for x in chars]
-
     rest = rest[1:-2]
-    rest = [x.split('png" title="')[1].split('" width="')[0] for x in rest]
 
-    cast = list(zip(chars, rest))
-    print(cast)
-    print(len(rest))
-    print('Summary:\n', summary, '\n')
+    for i in range(len(chars)):
+        try:
+            chars[i] = chars[i].split('">')[2].split('</a>')[0]
+        except IndexError:
+            chars[i] = chars[i].split('">')[1].split('</a>')[0].split('</td>')[0]
+            chars[i] = chars[i].strip()
+
+
+    rest = [x.split('png" title="')[1].split('" width="')[0] for x in rest]
+    limit = 20
+
+
+
+    if cast == False:
+        print('Cast not found')
+
+    else:
+        print('Cast (first billed):\n')
+        for i in range(len(rest)):
+            print(rest[i][:limit].rjust(limit), '|', chars[i])
+
+
+    print('\nSummary:\n', summary, '\n')
     print('Director:\n', director, '\n')
     print('IMDB score:\n', score, '\n')
     print('Number of User Ratings\n', num_reviews)
