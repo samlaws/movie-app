@@ -5,10 +5,12 @@ Python app comprised of a few short scripts to scrape an online movie database.
   
   Simple command line interface where to user can chose from the other functions or quit the program
   
-## recommender.py
+## functions.py
 
-  Prompts the user for the name of a movie and then navigates to that film's imdb page and gets a list of the recommended movies
+  The file containing the functions
   
-## details.py 
+  Search: Navigates to the chosen films imdb page and exits the program if there are no films or if the top result is not the film the user wants.
 
-  Prompts the user for the name of a movie and then navigates to that film's imdb page and gets some basic information from the page
+  Recomender: Gets a list of the recommended movies from the searched film
+ 
+  Details: Gets some basic information from the page of the searched film
