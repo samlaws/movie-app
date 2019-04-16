@@ -1,5 +1,4 @@
-from recommender import movie_recommender
-from details import movie_details
+from functions import movie_details, movie_recommender
 
 def welcome_text():
     print('Welcome to a worse version of imdb!')
