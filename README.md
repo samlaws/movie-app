@@ -1,5 +1,10 @@
-# movie-app
-Python app comprised of a few short scripts to scrape an online movie database.
+ _ __  _   _       _ __ ___   __| | |__
+| '_ \| | | |_____| '_ ` _ \ / _` | '_ \
+| |_) | |_| |_____| | | | | | (_| | |_) |
+| .__/ \__, |     |_| |_| |_|\__,_|_.__/
+|_|    |___/
+
+Python CLI for scraping an internet movie database.
 
 ## cli.py
   
